@@ -7,11 +7,14 @@
 //
 
 #import "JZAppDelegate.h"
+#import "ActiveRecord.h"
+#import "JZFavorite.h"
 
 @implementation JZAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [self initActiveRecord];
     // Override point for customization after application launch.
     return YES;
 }
@@ -43,4 +46,12 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+#pragma mark Core Data stack
+- (void)initActiveRecord
+{
+    [ActiveRecord registerDatabaseName:@"JieZi"
+                          useDirectory:ARStorageDocuments];
+    [ActiveRecord disableMigrations];
+    [JZFavorite createIndexOnDB];
+}
 @end

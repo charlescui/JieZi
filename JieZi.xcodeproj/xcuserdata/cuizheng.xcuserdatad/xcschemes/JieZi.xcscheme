@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "279C313119910EB700324C06"
-               BuildableName = "JieZi.app"
+               BuildableName = "&#x89e3;&#x5b57;.app"
                BlueprintName = "JieZi"
                ReferencedContainer = "container:JieZi.xcodeproj">
             </BuildableReference>
@@ -43,7 +43,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "279C313119910EB700324C06"
-            BuildableName = "JieZi.app"
+            BuildableName = "&#x89e3;&#x5b57;.app"
             BlueprintName = "JieZi"
             ReferencedContainer = "container:JieZi.xcodeproj">
          </BuildableReference>
@@ -62,12 +62,22 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "279C313119910EB700324C06"
-            BuildableName = "JieZi.app"
+            BuildableName = "&#x89e3;&#x5b57;.app"
             BlueprintName = "JieZi"
             ReferencedContainer = "container:JieZi.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
+         <AdditionalOption
+            key = "OBJC_PRINT_EXCEPTIONS"
+            value = "YES"
+            isEnabled = "YES">
+         </AdditionalOption>
+         <AdditionalOption
+            key = "NSZombieEnabled"
+            value = "YES"
+            isEnabled = "YES">
+         </AdditionalOption>
       </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
@@ -80,7 +90,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "279C313119910EB700324C06"
-            BuildableName = "JieZi.app"
+            BuildableName = "&#x89e3;&#x5b57;.app"
             BlueprintName = "JieZi"
             ReferencedContainer = "container:JieZi.xcodeproj">
          </BuildableReference>

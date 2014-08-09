@@ -7,7 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "JZOcr.h"
 
-@interface JZViewController : UIViewController
+@interface JZViewController : UIViewController<JZOcrDelegate>
+
+@property (nonatomic, strong) JZOcr *ocr;
+
+@property (nonatomic, strong) IBOutlet UIImageView *ocrFrameImageView;
+@property (nonatomic, strong) IBOutlet UIImageView *ocrImageView;
+@property (nonatomic, strong) IBOutlet UIButton *ocrButton;
+@property (nonatomic, strong) IBOutlet UIButton *cardButton;
 
 @end

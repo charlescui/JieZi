@@ -117,7 +117,21 @@
                                                    andActionArray:actions
                                               addToViewController:self];
     [self.view addSubview:popUp];
+    popUp.delegate = self;
     [popUp show];
+}
+
+#pragma mark -
+#pragma mark btSimplePopUPDelegate
+
+- (void)btSimplePopUPDelegateRemoveFromSpringboard:(NSString *)string
+{
+    //根据string找到相同的收藏
+    //删除之
+    JZFavorite *favorite = [[[[JZFavorite lazyFetcher] whereField:@"character" equalToValue:string] fetchRecords] lastObject];
+    if (favorite) {
+        [favorite dropRecord];
+    }
 }
 
 @end

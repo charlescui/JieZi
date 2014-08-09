@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "btSimplePopUp/btSimplePopUP.h"
 #import "JZOcr.h"
 
-@interface JZViewController : UIViewController<JZOcrDelegate>
+@interface JZViewController : UIViewController<JZOcrDelegate, btSimplePopUPDelegate>
 
 @property (nonatomic, strong) JZOcr *ocr;
 

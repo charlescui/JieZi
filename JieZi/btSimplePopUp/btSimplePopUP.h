@@ -10,6 +10,8 @@
 #import <QuartzCore/QuartzCore.h>
 #import <Accelerate/Accelerate.h>
 
+@class btRippleButtton;
+
 typedef NS_ENUM(NSInteger, BTPopUpStyle) {
     BTPopUpStyleDefault,
     BTPopUpStyleMinimalRoundedCorner
@@ -21,7 +23,24 @@ typedef NS_ENUM(NSInteger, BTPopUpBorderStyle) {
     BTPopUpBorderStyleDarkContent
 };
 
-@interface btSimplePopUP : UIView <UIScrollViewDelegate>{
+@protocol btRippleButtonDelegate <NSObject>
+
+@optional
+
+- (void)btRippleButtonDelegateEnableEditingMode:(btRippleButtton *)button;
+- (void)btRippleButtonDelegateRemoveFromSpringboard:(btRippleButtton *)button;
+
+@end
+
+@protocol btSimplePopUPDelegate <NSObject>
+
+@optional
+
+- (void)btSimplePopUPDelegateRemoveFromSpringboard:(NSString *)string;
+
+@end
+
+@interface btSimplePopUP : UIView <UIScrollViewDelegate, btRippleButtonDelegate>{
     UIImageView *backGroundBlurr;
     UIView *contentView;
     CGSize itemSize;
@@ -30,11 +49,12 @@ typedef NS_ENUM(NSInteger, BTPopUpBorderStyle) {
     NSArray *popItems;
     UIScrollView *scrollView;
     UIPageControl * pageControl;
+    NSMutableArray *buttons;
 }
 @property (nonatomic, assign) BTPopUpStyle popUpStyle;
 @property (nonatomic, assign) BTPopUpBorderStyle popUpBorderStyle;
 @property (nonatomic, assign) UIColor *popUpBackgroundColor;
-
+@property (nonatomic, strong) id<btSimplePopUPDelegate> delegate;
 @property (nonatomic) BOOL setShowRipples;
 
 -(instancetype)initWithItemImage:(NSArray *)items andActionArray:(NSArray *)actionArray addToViewController:(UIViewController*)sender;

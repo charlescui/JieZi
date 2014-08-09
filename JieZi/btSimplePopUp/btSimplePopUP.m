@@ -96,10 +96,18 @@ typedef void (^completion)(BOOL success);
     UIColor *rippleColor;
     NSArray *rippleColors;
     BOOL isRippleOn;
+    UIButton *removeButton;//LongPress
 }
 
-@property (nonatomic, copy) completion block;
+// LongPress
+@property (nonatomic, assign) NSInteger tag;
+@property (nonatomic, strong) id<btRippleButtonDelegate> delegate;
+@property BOOL isInEditingMode;
+@property (nonatomic, strong) NSString *character;
+- (void) pressedLong:(id) sender;
+// End LongPress
 
+@property (nonatomic, copy) completion block;
 -(instancetype)initWithImage:(UIImage *)image andFrame:(CGRect)frame andTarget:(SEL)action andID:(id)sender;
 
 -(instancetype)initWithImage:(UIImage *)image andFrame:(CGRect)frame onCompletion:(completion)completionBlock;
@@ -125,7 +133,7 @@ typedef void (^completion)(BOOL success);
 }
 
 -(void)commonInitWithImage:(UIImage *)image andTitle:(NSString *)aTitle andFrame:(CGRect) frame{
-    
+    self.character = aTitle;
     imageView = [[UIImageView alloc]initWithImage:image];
     imageView.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
     imageView.layer.borderColor = [UIColor clearColor].CGColor;
@@ -158,6 +166,88 @@ typedef void (^completion)(BOOL success);
     }
     
     [self addSubview:title];
+    self.isInEditingMode = NO;//LongPress
+    [self addLongPressHandler];//LongPress
+}
+
+#pragma mark -
+#pragma mark LongPressHandler
+
+- (void) pressedLong:(id) sender {
+    [self enableEditing];
+}
+
+- (void) removeButtonClicked:(id) sender  {
+    if ([self.delegate respondsToSelector:@selector(btRippleButtonDelegateRemoveFromSpringboard:)]) {
+        [self.delegate btRippleButtonDelegateRemoveFromSpringboard:self];
+    }
+}
+
+- (void) removeFromSuperview {
+    
+    [UIView animateWithDuration:0.2 animations:^{
+        self.alpha = 0.0;
+        [self setFrame:CGRectMake(self.frame.origin.x+50, self.frame.origin.y+50, 0, 0)];
+        [removeButton setFrame:CGRectMake(0, 0, 0, 0)];
+    }completion:^(BOOL finished) {
+        [super removeFromSuperview];
+    }];
+}
+
+- (void) enableEditing {
+    
+    if (self.isInEditingMode == YES)
+        return;
+    
+    // put item in editing mode
+    self.isInEditingMode = YES;
+    
+    // make the remove button visible
+    [removeButton setHidden:NO];
+    
+    // start the wiggling animation
+    CATransform3D transform;
+    
+    if (arc4random() % 2 == 1)
+        transform = CATransform3DMakeRotation(-0.08, 0, 0, 1.0);
+    else
+        transform = CATransform3DMakeRotation(0.08, 0, 0, 1.0);
+    
+    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform"];
+    animation.toValue = [NSValue valueWithCATransform3D:transform];
+    animation.autoreverses = YES;
+    animation.duration = 0.1;
+    animation.repeatCount = 10000;
+    animation.delegate = self;
+    [[self layer] addAnimation:animation forKey:@"wiggleAnimation"];
+    
+    // inform the springboard that the menu items are now editable so that the springboard
+    // will place a done button on the navigationbar
+    if ([self.delegate respondsToSelector:@selector(btRippleButtonDelegateEnableEditingMode:)]) {
+        [self.delegate btRippleButtonDelegateEnableEditingMode:self];
+    }
+}
+
+- (void) disableEditing {
+    [[self layer] removeAllAnimations];
+    [removeButton setHidden:YES];
+    self.isInEditingMode = NO;
+}
+
+-(void)addLongPressHandler
+{
+    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(pressedLong:)];
+    [self addGestureRecognizer:longPress];
+    
+    // place a remove button on top right corner for removing item from the board
+    removeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [removeButton setFrame:CGRectMake(0, 0, 10, 10)];
+    UIImage *deleteImage = [UIImage imageNamed:@"IconDelete"];
+    [removeButton setImage:deleteImage forState:UIControlStateNormal];
+    removeButton.backgroundColor = [UIColor clearColor];
+    [removeButton addTarget:self action:@selector(removeButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [removeButton setHidden:YES];
+    [self addSubview:removeButton];
 }
 
 -(instancetype)initWithImage:(UIImage *)image
@@ -209,6 +299,10 @@ typedef void (^completion)(BOOL success);
 }
 
 -(void)handleTap:(id)sender {
+    if (self.isInEditingMode) {
+        [self removeButtonClicked:nil];
+        return;
+    }
     
     if (isRippleOn) {
         UIColor *stroke = rippleColor ? rippleColor : [UIColor colorWithWhite:0.8 alpha:0.8];
@@ -372,7 +466,9 @@ typedef void (^completion)(BOOL success);
 }
 
 -(void)setUpPopItems {
-    
+    //初始化按钮数组
+    //用来保存元素状态
+    buttons = [NSMutableArray arrayWithCapacity:[popItems count]];
     itemSize = CGSizeMake(50.0f, 50.0f);
     itemTextColor = [UIColor whiteColor];
     itemFont = [UIFont boldSystemFontOfSize:14.f];
@@ -441,14 +537,15 @@ typedef void (^completion)(BOOL success);
             lastCount = counter;
         }
     }
-    
 }
 
 
 -(void)addButton:(BTPopUpItemView*) item xAxis:(CGFloat)x yAxis:(CGFloat)y {
     btRippleButtton *button = [[btRippleButtton alloc]initWithImage:item.imageView.image andTitle:item.title andFrame:CGRectMake(x, y, itemSize.width, itemSize.height) onCompletion:[item.action copy]];
+    button.delegate = self;//LongPress
     [button setRippeEffect:YES];
     [scrollView addSubview:button];
+    [buttons addObject:button];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)aScrollView {
@@ -509,6 +606,10 @@ typedef void (^completion)(BOOL success);
 }
 
 -(void)dismiss {
+    //取消所有晃动的按钮的动画效果
+    for (btRippleButtton *btn in buttons) {
+        [btn disableEditing];
+    }
     [UIView animateWithDuration:0.1 animations:^{
         contentView.frame = CGRectMake(self.frame.size.width/2-150, SCREEN_SIZE.size.height, POPUP_WIDTH, POP_HEIGHT);
         backGroundBlurr.alpha = 0;
@@ -523,7 +624,28 @@ typedef void (^completion)(BOOL success);
 {
     // Drawing code
 }
-*/
+ */
+
+#pragma mark LongPressDelegate
+
+// 广播:删除事件被触发
+- (void)btRippleButtonDelegateEnableEditingMode:(btRippleButtton *)button
+{
+    for (btRippleButtton *btn in buttons) {
+        if (btn != button) {
+            [btn pressedLong:nil];
+        }
+    }
+}
+
+- (void)btRippleButtonDelegateRemoveFromSpringboard:(btRippleButtton *)button
+{
+    NSLog(@"%@ remove from menu", button.character);
+    [button removeFromSuperview];
+    if ([self.delegate respondsToSelector:@selector(btSimplePopUPDelegateRemoveFromSpringboard:)]) {
+        [self.delegate btSimplePopUPDelegateRemoveFromSpringboard:button.character];
+    }
+}
 
 @end
 

@@ -10,6 +10,8 @@
 #import <QuartzCore/QuartzCore.h>
 #import <Accelerate/Accelerate.h>
 
+typedef void (^completion)(BOOL success, NSInteger idx);
+
 @class btRippleButtton;
 
 typedef NS_ENUM(NSInteger, BTPopUpStyle) {
@@ -37,6 +39,7 @@ typedef NS_ENUM(NSInteger, BTPopUpBorderStyle) {
 @optional
 
 - (void)btSimplePopUPDelegateRemoveFromSpringboard:(NSString *)string;
+- (void)btSimplePopUPDelegateItemClicked:(NSInteger)idx;
 
 @end
 

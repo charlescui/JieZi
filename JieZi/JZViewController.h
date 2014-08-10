@@ -13,6 +13,7 @@
 @interface JZViewController : UIViewController<JZOcrDelegate, btSimplePopUPDelegate>
 
 @property (nonatomic, strong) JZOcr *ocr;
+@property (nonatomic, strong) NSArray *favorites;
 
 @property (nonatomic, strong) IBOutlet UIImageView *ocrFrameImageView;
 @property (nonatomic, strong) IBOutlet UIImageView *ocrImageView;

@@ -12,6 +12,7 @@
 #import "JZOcrResultViewController.h"
 #import "RWBlurPopover/RWBlurPopover.h"
 #import "btSimplePopUp/btSimplePopUP.h"
+#import "JZDictController.h"
 
 @interface JZViewController ()
 
@@ -101,14 +102,17 @@
     NSLog(@"Tap");
     //得到收藏列表前27个
     //pop上共3页
-    NSArray *favorites = [[[[JZFavorite lazyFetcher] limit:27] orderBy:@"id" ascending:NO] fetchRecords];
-    NSMutableArray *titles = [[NSMutableArray alloc] initWithCapacity:[favorites count]];
-    NSMutableArray *actions = [[NSMutableArray alloc] initWithCapacity:[favorites count]];
-    NSMutableArray *images = [[NSMutableArray alloc] initWithCapacity:[favorites count]];
-    for (JZFavorite *f in favorites) {
+    self.favorites = [[[[JZFavorite lazyFetcher] limit:27] orderBy:@"id" ascending:NO] fetchRecords];
+    NSMutableArray *titles = [[NSMutableArray alloc] initWithCapacity:[self.favorites count]];
+    NSMutableArray *actions = [[NSMutableArray alloc] initWithCapacity:[self.favorites count]];
+    NSMutableArray *images = [[NSMutableArray alloc] initWithCapacity:[self.favorites count]];
+    for (JZFavorite *f in self.favorites) {
         [titles addObject:f.character];
-        dispatch_block_t a = ^(){
-            [JZOcrResultViewController searchCharacter:f.character];
+        completion a = ^(BOOL success, NSInteger idx){
+            //选中了某个收藏
+            JZFavorite *f = [self.favorites objectAtIndex:idx];
+            JZDictController *controller = [JZDictController default];
+            [controller showWordInDict:f.character];
         };
         [actions addObject:a];
     }

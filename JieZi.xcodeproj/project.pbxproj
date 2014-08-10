@@ -22,6 +22,7 @@
 		2707D1A41994C0900079686D /* JZFavorite.m in Sources */ = {isa = PBXBuildFile; fileRef = 2707D1A31994C0900079686D /* JZFavorite.m */; };
 		2707D1B219952FE70079686D /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2707D1B119952FE70079686D /* libsqlite3.dylib */; };
 		2707D1B61995A5120079686D /* btSimplePopUP.m in Sources */ = {isa = PBXBuildFile; fileRef = 2707D1B51995A5120079686D /* btSimplePopUP.m */; };
+		2707D1BE1997B7080079686D /* JZDictController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2707D1BD1997B7080079686D /* JZDictController.m */; };
 		279C313619910EB700324C06 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 279C313519910EB700324C06 /* Foundation.framework */; };
 		279C313819910EB700324C06 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 279C313719910EB700324C06 /* CoreGraphics.framework */; };
 		279C313A19910EB700324C06 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 279C313919910EB700324C06 /* UIKit.framework */; };
@@ -42,6 +43,7 @@
 		279C319119912A6700324C06 /* tessdata in Resources */ = {isa = PBXBuildFile; fileRef = 279C319019912A6700324C06 /* tessdata */; };
 		279C31971991F09500324C06 /* JZOcrResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 279C31951991F09500324C06 /* JZOcrResultViewController.m */; };
 		279C31981991F09500324C06 /* JZOcrResultViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 279C31961991F09500324C06 /* JZOcrResultViewController.xib */; };
+		27A187571997BA1B00A664AF /* powerword2007_pwdcccjk.xml in Resources */ = {isa = PBXBuildFile; fileRef = 27A187561997BA1B00A664AF /* powerword2007_pwdcccjk.xml */; };
 		9F8777EEF39C45E596F4773E /* libPods-JieZi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B88AAE747E6D489AA6435CB0 /* libPods-JieZi.a */; };
 /* End PBXBuildFile section */
 
@@ -219,6 +221,8 @@
 		2707D1B119952FE70079686D /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		2707D1B41995A5120079686D /* btSimplePopUP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = btSimplePopUP.h; sourceTree = "<group>"; };
 		2707D1B51995A5120079686D /* btSimplePopUP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = btSimplePopUP.m; sourceTree = "<group>"; };
+		2707D1BC1997B7080079686D /* JZDictController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JZDictController.h; sourceTree = "<group>"; };
+		2707D1BD1997B7080079686D /* JZDictController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JZDictController.m; sourceTree = "<group>"; };
 		279C313219910EB700324C06 /* 解字.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "解字.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		279C313519910EB700324C06 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		279C313719910EB700324C06 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -247,6 +251,7 @@
 		279C31941991F09500324C06 /* JZOcrResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JZOcrResultViewController.h; sourceTree = "<group>"; };
 		279C31951991F09500324C06 /* JZOcrResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JZOcrResultViewController.m; sourceTree = "<group>"; };
 		279C31961991F09500324C06 /* JZOcrResultViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JZOcrResultViewController.xib; sourceTree = "<group>"; };
+		27A187561997BA1B00A664AF /* powerword2007_pwdcccjk.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = powerword2007_pwdcccjk.xml; sourceTree = "<group>"; };
 		B88AAE747E6D489AA6435CB0 /* libPods-JieZi.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-JieZi.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -509,6 +514,23 @@
 			path = btSimplePopUp;
 			sourceTree = "<group>";
 		};
+		2707D1B81997B3C60079686D /* dict */ = {
+			isa = PBXGroup;
+			children = (
+				27A187561997BA1B00A664AF /* powerword2007_pwdcccjk.xml */,
+			);
+			name = dict;
+			sourceTree = "<group>";
+		};
+		2707D1BB1997B6F20079686D /* controller */ = {
+			isa = PBXGroup;
+			children = (
+				2707D1BC1997B7080079686D /* JZDictController.h */,
+				2707D1BD1997B7080079686D /* JZDictController.m */,
+			);
+			name = controller;
+			sourceTree = "<group>";
+		};
 		279C312919910EB700324C06 = {
 			isa = PBXGroup;
 			children = (
@@ -552,6 +574,8 @@
 		279C313B19910EB700324C06 /* JieZi */ = {
 			isa = PBXGroup;
 			children = (
+				2707D1BB1997B6F20079686D /* controller */,
+				2707D1B81997B3C60079686D /* dict */,
 				2707D1B31995A5120079686D /* btSimplePopUp */,
 				2707D1A11994C04E0079686D /* models */,
 				2707D0FC199383980079686D /* tesseract-ios */,
@@ -696,6 +720,7 @@
 				279C314E19910EB700324C06 /* Images.xcassets in Resources */,
 				279C319119912A6700324C06 /* tessdata in Resources */,
 				2707D19C199383980079686D /* README.md in Resources */,
+				27A187571997BA1B00A664AF /* powerword2007_pwdcccjk.xml in Resources */,
 				279C314019910EB700324C06 /* InfoPlist.strings in Resources */,
 				2707D1A0199383980079686D /* README.md in Resources */,
 				279C31981991F09500324C06 /* JZOcrResultViewController.xib in Resources */,
@@ -756,6 +781,7 @@
 				279C314C19910EB700324C06 /* JZViewController.m in Sources */,
 				2707D1A41994C0900079686D /* JZFavorite.m in Sources */,
 				279C316E1991180300324C06 /* JZOcr.m in Sources */,
+				2707D1BE1997B7080079686D /* JZDictController.m in Sources */,
 				279C31971991F09500324C06 /* JZOcrResultViewController.m in Sources */,
 				279C314219910EB700324C06 /* main.m in Sources */,
 				2707D1B61995A5120079686D /* btSimplePopUP.m in Sources */,

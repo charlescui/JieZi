@@ -10,8 +10,6 @@
 #define POPUP_WIDTH 300.0
 #define POP_HEIGHT 300.0
 
-typedef void (^completion)(BOOL success);
-
 #import "btSimplePopUP.h"
 
 #pragma mark - BTPopUpItemView
@@ -21,6 +19,7 @@ typedef void (^completion)(BOOL success);
 @property (nonatomic, readonly) UIImage *image;
 @property (nonatomic, readonly) UIImageView *imageView;
 @property (nonatomic, readonly) NSString *title;
+@property (nonatomic, assign) NSInteger idx;
 @property (nonatomic, copy) dispatch_block_t action;
 
 - (instancetype)initWithImage:(UIImage *)image title:(NSString *)title action:(dispatch_block_t)action;
@@ -107,6 +106,7 @@ typedef void (^completion)(BOOL success);
 - (void) pressedLong:(id) sender;
 // End LongPress
 
+@property (nonatomic, assign) NSInteger idx;//用来回掉的时候告知调用者是哪个元素被按
 @property (nonatomic, copy) completion block;
 -(instancetype)initWithImage:(UIImage *)image andFrame:(CGRect)frame andTarget:(SEL)action andID:(id)sender;
 
@@ -353,7 +353,7 @@ typedef void (^completion)(BOOL success);
             if(_block) {
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"BT_POP_UP_ITEM_PRESSED" object:nil];
                 BOOL success= YES;
-                _block(success);
+                _block(success, self.idx);
             }
         }];
         
@@ -499,6 +499,7 @@ typedef void (^completion)(BOOL success);
         counter = lastCount;
         for(; counter< [popItems count]; counter++) {
             BTPopUpItemView *item = [popItems objectAtIndex:counter];
+            item.idx = counter;
             if(count < 9){
                 if(count < 3){
                     [self addButton:item xAxis:xAxis yAxis:yAxis];
@@ -543,6 +544,7 @@ typedef void (^completion)(BOOL success);
 -(void)addButton:(BTPopUpItemView*) item xAxis:(CGFloat)x yAxis:(CGFloat)y {
     btRippleButtton *button = [[btRippleButtton alloc]initWithImage:item.imageView.image andTitle:item.title andFrame:CGRectMake(x, y, itemSize.width, itemSize.height) onCompletion:[item.action copy]];
     button.delegate = self;//LongPress
+    button.idx = item.idx;
     [button setRippeEffect:YES];
     [scrollView addSubview:button];
     [buttons addObject:button];

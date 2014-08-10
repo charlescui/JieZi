@@ -9,12 +9,14 @@
 #import "JZAppDelegate.h"
 #import "ActiveRecord.h"
 #import "JZFavorite.h"
+#import "JZDictController.h"
 
 @implementation JZAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [self initActiveRecord];
+    [self initDict];
     // Override point for customization after application launch.
     return YES;
 }
@@ -53,5 +55,13 @@
                           useDirectory:ARStorageDocuments];
     [ActiveRecord disableMigrations];
     [JZFavorite createIndexOnDB];
+}
+
+- (void)initDict
+{
+    JZDictController *controller = [JZDictController default];
+    dispatch_async(dispatch_queue_create("dict_load", NULL), ^(){
+        [controller initDict];
+    });
 }
 @end

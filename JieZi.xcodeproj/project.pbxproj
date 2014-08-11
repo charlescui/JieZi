@@ -45,6 +45,8 @@
 		279C31981991F09500324C06 /* JZOcrResultViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 279C31961991F09500324C06 /* JZOcrResultViewController.xib */; };
 		27A1875A1998528100A664AF /* JZDict.m in Sources */ = {isa = PBXBuildFile; fileRef = 27A187591998528100A664AF /* JZDict.m */; };
 		27A910B119989D02009B5DBA /* dict.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 27A910B0199897F7009B5DBA /* dict.sqlite */; };
+		27A910B51998AD97009B5DBA /* JZCharacterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27A910B31998AD97009B5DBA /* JZCharacterViewController.m */; };
+		27A910B61998AD97009B5DBA /* JZCharacterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27A910B41998AD97009B5DBA /* JZCharacterViewController.xib */; };
 		9F8777EEF39C45E596F4773E /* libPods-JieZi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B88AAE747E6D489AA6435CB0 /* libPods-JieZi.a */; };
 /* End PBXBuildFile section */
 
@@ -255,6 +257,9 @@
 		27A187581998528100A664AF /* JZDict.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JZDict.h; sourceTree = "<group>"; };
 		27A187591998528100A664AF /* JZDict.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JZDict.m; sourceTree = "<group>"; };
 		27A910B0199897F7009B5DBA /* dict.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = dict.sqlite; sourceTree = "<group>"; };
+		27A910B21998AD97009B5DBA /* JZCharacterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JZCharacterViewController.h; sourceTree = "<group>"; };
+		27A910B31998AD97009B5DBA /* JZCharacterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JZCharacterViewController.m; sourceTree = "<group>"; };
+		27A910B41998AD97009B5DBA /* JZCharacterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JZCharacterViewController.xib; sourceTree = "<group>"; };
 		B88AAE747E6D489AA6435CB0 /* libPods-JieZi.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-JieZi.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -598,6 +603,9 @@
 				279C31941991F09500324C06 /* JZOcrResultViewController.h */,
 				279C31951991F09500324C06 /* JZOcrResultViewController.m */,
 				279C31961991F09500324C06 /* JZOcrResultViewController.xib */,
+				27A910B21998AD97009B5DBA /* JZCharacterViewController.h */,
+				27A910B31998AD97009B5DBA /* JZCharacterViewController.m */,
+				27A910B41998AD97009B5DBA /* JZCharacterViewController.xib */,
 			);
 			path = JieZi;
 			sourceTree = "<group>";
@@ -721,6 +729,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				27A910B119989D02009B5DBA /* dict.sqlite in Resources */,
+				27A910B61998AD97009B5DBA /* JZCharacterViewController.xib in Resources */,
 				2707D19D199383980079686D /* .gitignore in Resources */,
 				2707D19B199383980079686D /* LICENSE in Resources */,
 				279C314E19910EB700324C06 /* Images.xcassets in Resources */,
@@ -791,6 +800,7 @@
 				279C31971991F09500324C06 /* JZOcrResultViewController.m in Sources */,
 				279C314219910EB700324C06 /* main.m in Sources */,
 				2707D1B61995A5120079686D /* btSimplePopUP.m in Sources */,
+				27A910B51998AD97009B5DBA /* JZCharacterViewController.m in Sources */,
 				2707D19A199383980079686D /* Tesseract.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

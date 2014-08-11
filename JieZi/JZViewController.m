@@ -106,17 +106,18 @@
     NSMutableArray *titles = [[NSMutableArray alloc] initWithCapacity:[self.favorites count]];
     NSMutableArray *actions = [[NSMutableArray alloc] initWithCapacity:[self.favorites count]];
     NSMutableArray *images = [[NSMutableArray alloc] initWithCapacity:[self.favorites count]];
+    btSimplePopUP *popUp;
     for (JZFavorite *f in self.favorites) {
         [titles addObject:f.character];
         completion a = ^(BOOL success, NSInteger idx){
             //选中了某个收藏
             JZFavorite *f = [self.favorites objectAtIndex:idx];
-            JZDictController *controller = [JZDictController default];
-            [controller showWordInDict:f.character];
+            [popUp dismiss];
+            [JZDictController showCharacterView:f.character];
         };
         [actions addObject:a];
     }
-    btSimplePopUP *popUp = [[btSimplePopUP alloc] initWithItemImage:images
+    popUp = [[btSimplePopUP alloc] initWithItemImage:images
                                                         andTitles:titles
                                                    andActionArray:actions
                                               addToViewController:self];

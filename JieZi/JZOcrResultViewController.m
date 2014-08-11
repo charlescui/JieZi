@@ -8,6 +8,7 @@
 
 #import "JZOcrResultViewController.h"
 #import "UIImage+Filters.h"
+#import "JZDictController.h"
 
 @interface JZOcrResultViewController ()
 
@@ -118,18 +119,7 @@
 
 - (IBAction)clickSearchButton:(id)sender
 {
-    [JZOcrResultViewController searchCharacter: self.characterLabel.text];
-}
-
-+ (void)searchCharacter:(NSString *)character
-{
-    NSString *c;
-    if ([character length] > 1) {
-        c = [character substringWithRange:NSMakeRange(0, 1)];
-    }
-    NSString *string = [NSString stringWithFormat:@"http://baike.baidu.com/search/word?word=%@", [c stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-    NSLog(@"%@", string);
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:string]];
+    [JZDictController showCharacterView: self.characterLabel.text];
 }
 
 @end

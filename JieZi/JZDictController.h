@@ -17,7 +17,8 @@
 
 + (JZDictController *)default;
 - (id)initDict;
-- (void)showWordInDict:(NSString *)w;
 - (NSArray *)queryDictWithCharacter:(NSString *)w;
+- (void)showWordInDict:(NSString *)w;
++ (void)showCharacterView:(NSString *)w;
 
 @end

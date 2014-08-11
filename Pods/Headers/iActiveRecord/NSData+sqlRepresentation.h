@@ -1,0 +1,1 @@
+../../iActiveRecord/iActiveRecord/NSData+sqlRepresentation.h

@@ -1,0 +1,1 @@
+../../../iOSBlocks/Source/CoreLocation/CLLocationManager+Block.h

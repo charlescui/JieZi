@@ -1,0 +1,5 @@
+#include "Pods-JieZi-ObjectiveRecord.xcconfig"
+GCC_PREPROCESSOR_DEFINITIONS = COCOAPODS=1
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/BuildHeaders" "${PODS_ROOT}/BuildHeaders/ObjectiveRecord" "${PODS_ROOT}/Headers" "${PODS_ROOT}/Headers/AFNetworking" "${PODS_ROOT}/Headers/GPUImage" "${PODS_ROOT}/Headers/ObjectiveRecord" "${PODS_ROOT}/Headers/ObjectiveSugar" "${PODS_ROOT}/Headers/RWBlurPopover" "${PODS_ROOT}/Headers/SBJson" "${PODS_ROOT}/Headers/SDWebImage" "${PODS_ROOT}/Headers/SVProgressHUD" "${PODS_ROOT}/Headers/iOSBlocks" "${PODS_ROOT}/Headers/iOSBlocks/CoreLocation" "${PODS_ROOT}/Headers/iOSBlocks/Foundation" "${PODS_ROOT}/Headers/iOSBlocks/MessageUI" "${PODS_ROOT}/Headers/iOSBlocks/UIKit"
+OTHER_LDFLAGS = -ObjC ${PODS_JIEZI_OBJECTIVERECORD_OTHER_LDFLAGS}
+PODS_ROOT = ${SRCROOT}

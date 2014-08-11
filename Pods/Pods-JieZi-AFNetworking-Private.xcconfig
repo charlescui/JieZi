@@ -1,0 +1,5 @@
+#include "Pods-JieZi-AFNetworking.xcconfig"
+GCC_PREPROCESSOR_DEFINITIONS = COCOAPODS=1
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/BuildHeaders" "${PODS_ROOT}/BuildHeaders/AFNetworking" "${PODS_ROOT}/Headers" "${PODS_ROOT}/Headers/ABSQLite" "${PODS_ROOT}/Headers/AFNetworking" "${PODS_ROOT}/Headers/GPUImage" "${PODS_ROOT}/Headers/RWBlurPopover" "${PODS_ROOT}/Headers/SBJson" "${PODS_ROOT}/Headers/SDWebImage" "${PODS_ROOT}/Headers/STCollapseTableView" "${PODS_ROOT}/Headers/SVProgressHUD" "${PODS_ROOT}/Headers/XMLDictionary" "${PODS_ROOT}/Headers/iActiveRecord" "${PODS_ROOT}/Headers/iOSBlocks" "${PODS_ROOT}/Headers/iOSBlocks/CoreLocation" "${PODS_ROOT}/Headers/iOSBlocks/Foundation" "${PODS_ROOT}/Headers/iOSBlocks/MessageUI" "${PODS_ROOT}/Headers/iOSBlocks/UIKit"
+OTHER_LDFLAGS = -ObjC ${PODS_JIEZI_AFNETWORKING_OTHER_LDFLAGS}
+PODS_ROOT = ${SRCROOT}

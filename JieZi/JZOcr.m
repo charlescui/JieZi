@@ -22,27 +22,9 @@
     self = [super init];
     if (self) {
         self.view = view;
-        // Device
-        self.device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+//        [self initCoreVideo];
+        [self initGPUImage];
         
-        // Input
-        self.input = [AVCaptureDeviceInput deviceInputWithDevice:self.device error:nil];
-        
-        // Output
-        self.output = [[AVCaptureStillImageOutput alloc]init];
-        
-        // Session
-        self.session = [[AVCaptureSession alloc]init];
-        [self.session setSessionPreset:AVCaptureSessionPreset640x480];
-
-        if ([self.session canAddInput:self.input])
-        {
-            [self.session addInput:self.input];
-        }
-        if ([self.session canAddOutput:self.output])
-        {
-            [self.session addOutput:self.output];
-        }
         dispatch_async(dispatch_queue_create("ocr", NULL), ^(){
             [self initTesseract];
         });
@@ -52,6 +34,38 @@
         NSLog(@"Tesseract version %@", Tesseract.version);
     }
     return self;
+}
+
+- (void)initGPUImage
+{
+    //初始化GPUImageVIew
+    self.gpuImageView = [[GPUImageView alloc] initWithFrame:self.view.frame];
+    [self.view addSubview:self.gpuImageView];
+}
+
+- (void)initCoreVideo
+{
+    // Device
+    self.device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+    
+    // Input
+    self.input = [AVCaptureDeviceInput deviceInputWithDevice:self.device error:nil];
+    
+    // Output
+    self.output = [[AVCaptureStillImageOutput alloc]init];
+    
+    // Session
+    self.session = [[AVCaptureSession alloc]init];
+    [self.session setSessionPreset:AVCaptureSessionPreset640x480];
+    
+    if ([self.session canAddInput:self.input])
+    {
+        [self.session addInput:self.input];
+    }
+    if ([self.session canAddOutput:self.output])
+    {
+        [self.session addOutput:self.output];
+    }
 }
 
 - (void)initTesseract
@@ -69,7 +83,25 @@
     //        [self.tesseract setVariableValue:@"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz" forKey:@"tessedit_char_whitelist"]; //limit search
 }
 
-- (void)startRunning
+- (void)startGPUImageRunning
+{
+    //GPUImage
+    //调用GPUImageStillCamera 作为相机，并将相机添加到一个GPUImageView中
+    self.stillCamera = [[GPUImageStillCamera alloc] initWithSessionPreset:AVCaptureSessionPreset640x480 cameraPosition:AVCaptureDevicePositionBack];
+    //设置输出视频的方向
+    self.stillCamera.outputImageOrientation = UIInterfaceOrientationPortrait;
+    //切记使用小一些的尺寸initWithSessionPreset:AVCaptureSessionPreset640x480。否则会出现memory warning
+    //如果需要添加fiilter。就通过其中添加
+    self.filter = [[GPUImageTiltShiftFilter alloc] init];
+    ((GPUImageTiltShiftFilter *)self.filter).blurRadiusInPixels = 10.0;
+
+    [self.stillCamera addTarget: self.filter];
+    [self.filter addTarget:self.gpuImageView];
+    //启动
+    [self.stillCamera startCameraCapture];
+}
+
+- (void)startCoreVideo
 {
     // Preview
     self.preview = [AVCaptureVideoPreviewLayer layerWithSession:self.session];
@@ -81,6 +113,11 @@
     [self.view addGestureRecognizer:tap];
     // Start
     [self.session startRunning];
+}
+
+- (void)startRunning
+{
+    [self startGPUImageRunning];
 }
 
 -(void)handleFocus:(UITouch*)touch
@@ -100,77 +137,62 @@
     }
 }
 
+- (void)processCapturedImage:(UIImage *)image
+{
+    self.currentImage = image;
+    //        self.currentImage = [self.view screenshot];
+    self.currentRawImage = self.currentImage;
+    UIImageWriteToSavedPhotosAlbum(self.currentImage, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+    
+    GPUImageFilter *filter;
+    
+    //修复旋转错误
+    self.currentImage = [self.currentImage fixOrientation];
+    
+    //裁剪图片
+    filter = [[GPUImageCropFilter alloc] initWithCropRegion:[self toGPUImageRect:self.currentImage]];
+    self.currentImage = [filter imageByFilteringImage:self.currentImage];
+    UIImageWriteToSavedPhotosAlbum(self.currentImage, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+    
+    //灰度
+    filter = [[GPUImageGrayscaleFilter alloc] init];
+    self.currentImage = [filter imageByFilteringImage:self.currentImage];
+    UIImageWriteToSavedPhotosAlbum(self.currentImage, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+    
+    //求反
+    filter = [[GPUImageColorInvertFilter alloc] init];
+    self.currentImage = [filter imageByFilteringImage:self.currentImage];
+    UIImageWriteToSavedPhotosAlbum(self.currentImage, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+    
+    //边缘检测
+    //        filter = [[GPUImageThresholdEdgeDetectionFilter alloc] init];
+    //        t_image = [filter imageByFilteringImage:t_image];
+    //        UIImageWriteToSavedPhotosAlbum(t_image, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+    
+    //亮度阈
+    //        filter = [[GPUImageLuminanceThresholdFilter alloc] init];
+    //        [(GPUImageLuminanceThresholdFilter *)filter setThreshold:0.3f];
+    //        self.currentImage = [filter imageByFilteringImage:self.currentImage];
+    //        UIImageWriteToSavedPhotosAlbum(self.currentImage, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+    
+    //锐化
+    filter = [[GPUImageSharpenFilter alloc] init];
+    self.currentImage = [filter imageByFilteringImage:self.currentImage];
+    UIImageWriteToSavedPhotosAlbum(self.currentImage, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+    
+    [self recognize:self.currentImage];
+}
+
 /*
  捕获图片
  **/
 - (void)captureimage
 {
-    //获取连接
-    AVCaptureConnection *videoConnection = nil;
-    for (AVCaptureConnection *connection in self.output.connections) {
-        for (AVCaptureInputPort *port in [connection inputPorts]) {
-            if ([[port mediaType] isEqual:AVMediaTypeVideo] ) {
-                videoConnection = connection;
-                break;
-            }
-        }
-        if (videoConnection) {
-            break;
-        }
-    }
-
-    //获取并处理图片
-    [self.output captureStillImageAsynchronouslyFromConnection:videoConnection completionHandler:^(CMSampleBufferRef imageSampleBuffer, NSError *error) {
-        CFDictionaryRef exifAttachments = CMGetAttachment(imageSampleBuffer, kCGImagePropertyExifDictionary, nil);
-        if (exifAttachments) {
-            // Do something with the attachments.
-        }
-
-        // 获取图片数据
-        NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageSampleBuffer];
-        self.currentImage = [[UIImage alloc] initWithData:imageData];
-//        self.currentImage = [self.view screenshot];
-        self.currentRawImage = self.currentImage;
-        UIImageWriteToSavedPhotosAlbum(self.currentImage, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
-        
-        GPUImageFilter *filter;
-        
-        //修复旋转错误
-        self.currentImage = [self.currentImage fixOrientation];
-        
-        //裁剪图片
-        filter = [[GPUImageCropFilter alloc] initWithCropRegion:[self toGPUImageRect:self.currentImage]];
-        self.currentImage = [filter imageByFilteringImage:self.currentImage];
-        UIImageWriteToSavedPhotosAlbum(self.currentImage, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
-        
-        //灰度
-        filter = [[GPUImageGrayscaleFilter alloc] init];
-        self.currentImage = [filter imageByFilteringImage:self.currentImage];
-        UIImageWriteToSavedPhotosAlbum(self.currentImage, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
-        
-        //求反
-        filter = [[GPUImageColorInvertFilter alloc] init];
-        self.currentImage = [filter imageByFilteringImage:self.currentImage];
-        UIImageWriteToSavedPhotosAlbum(self.currentImage, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
-        
-        //边缘检测
-//        filter = [[GPUImageThresholdEdgeDetectionFilter alloc] init];
-//        t_image = [filter imageByFilteringImage:t_image];
-//        UIImageWriteToSavedPhotosAlbum(t_image, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
-        
-        //亮度阈
-//        filter = [[GPUImageLuminanceThresholdFilter alloc] init];
-//        [(GPUImageLuminanceThresholdFilter *)filter setThreshold:0.3f];
-//        self.currentImage = [filter imageByFilteringImage:self.currentImage];
-//        UIImageWriteToSavedPhotosAlbum(self.currentImage, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
-        
-        //锐化
-        filter = [[GPUImageSharpenFilter alloc] init];
-        self.currentImage = [filter imageByFilteringImage:self.currentImage];
-        UIImageWriteToSavedPhotosAlbum(self.currentImage, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
-        
-        [self recognize:self.currentImage];
-    }];
+    //拍照后想生成图片
+    [self.stillCamera capturePhotoAsImageProcessedUpToFilter:self.filter
+                                       withCompletionHandler:^(UIImage *processed, NSError *error){
+                                           [self processCapturedImage:processed];
+                                       }];
 }
 
 - (CGRect)toGPUImageRect:(UIImage *)image

@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
-//#import <TesseractOCR/TesseractOCR.h>
+#import "GPUImage/GPUImage.h"
 #import "Tesseract.h"
 
 @protocol JZOcrDelegate <NSObject>
@@ -42,6 +42,11 @@
 @property (nonatomic, assign) CGPoint startLocation;
 @property (nonatomic, strong) UIImage *currentImage;
 @property (nonatomic, strong) UIImage *currentRawImage;
+
+//GPUImage
+@property (nonatomic, strong) GPUImageView *gpuImageView;
+@property (nonatomic, strong) GPUImageStillCamera *stillCamera;
+@property (nonatomic, strong) GPUImageFilterGroup *filter;
 
 - (id)initWithView:(UIView *)view;
 - (void)startRunning;

@@ -24,5 +24,4 @@
 @property (nonatomic, strong) NSString *value;//识别结果
 
 - (CGSize)preferredContentSize;
-+ (void)showCharacterView:(NSString *)character;
 @end

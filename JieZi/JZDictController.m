@@ -11,6 +11,7 @@
 #import "iOSBlocks/iOSBlocks.h"
 #import "JZDict.h"
 #import "JZCharacterViewController.h"
+#import "RWBlurPopover/RWBlurPopover.h"
 
 @implementation JZDictController
 
@@ -89,15 +90,19 @@
     }
 }
 
-+ (void)showCharacterView:(NSString *)character
++ (void)showCharacterView:(NSString *)character withController:(UIViewController *)parent
 {
     NSArray *records = [[JZDictController default] queryDictWithCharacter:character];
     JZDict *dict = records.lastObject;
     JZCharacterViewController *controller = [[JZCharacterViewController alloc] initWithNibName:nil bundle:nil];
     controller.dict = dict;
-    //唤起导航
-    UINavigationController *navi = [[UINavigationController alloc] initWithRootViewController:controller];
-    [[UIApplication sharedApplication].delegate.window.rootViewController presentViewController:navi animated:YES completion:nil];
+    RWBlurPopover *popover = [[RWBlurPopover alloc] initWithContentViewController:controller];
+    [parent presentViewController:popover animated:YES completion:^(){
+        
+    }];
+//    //唤起导航
+//    UINavigationController *navi = [[UINavigationController alloc] initWithRootViewController:controller];
+//    [[UIApplication sharedApplication].delegate.window.rootViewController presentViewController:navi animated:YES completion:nil];
 }
 
 @end

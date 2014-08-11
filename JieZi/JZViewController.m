@@ -113,7 +113,7 @@
             //选中了某个收藏
             JZFavorite *f = [self.favorites objectAtIndex:idx];
             [popUp dismiss];
-            [JZDictController showCharacterView:f.character];
+            [JZDictController showCharacterView:f.character withController:self];
         };
         [actions addObject:a];
     }

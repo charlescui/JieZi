@@ -42,7 +42,11 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel:)];
+//    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel:)];
+    
+    //设置边缘为圆角
+    self.view.layer.cornerRadius = 6;
+    self.view.layer.masksToBounds = YES;
 }
 
 - (void)didReceiveMemoryWarning
@@ -121,6 +125,11 @@
 - (IBAction)cancel:(id)sender
 {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (CGSize)preferredContentSize
+{
+    return CGSizeMake(300, 420);
 }
 
 @end

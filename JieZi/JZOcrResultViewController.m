@@ -119,7 +119,7 @@
 
 - (IBAction)clickSearchButton:(id)sender
 {
-    [JZDictController showCharacterView: self.characterLabel.text];
+    [JZDictController showCharacterView: self.characterLabel.text withController:self];
 }
 
 @end

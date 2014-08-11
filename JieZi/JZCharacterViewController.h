@@ -22,4 +22,6 @@
 
 @property (nonatomic, strong) JZDict *dict;
 
+- (CGSize)preferredContentSize;
+
 @end

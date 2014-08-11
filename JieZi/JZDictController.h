@@ -19,6 +19,6 @@
 - (id)initDict;
 - (NSArray *)queryDictWithCharacter:(NSString *)w;
 - (void)showWordInDict:(NSString *)w;
-+ (void)showCharacterView:(NSString *)w;
++ (void)showCharacterView:(NSString *)character withController:(UIViewController *)parent;
 
 @end

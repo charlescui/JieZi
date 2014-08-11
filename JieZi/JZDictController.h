@@ -7,13 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ABSQLiteDB.h"
 
-@interface JZDictController : NSObject
+@interface JZDictController : NSObject{
+    ABSQLiteDB *db;
+}
 
 @property (nonatomic, strong) NSMutableDictionary *dict;
 
 + (JZDictController *)default;
-- (void)initDict;
+- (id)initDict;
 - (void)showWordInDict:(NSString *)w;
+- (NSArray *)queryDictWithCharacter:(NSString *)w;
 
 @end

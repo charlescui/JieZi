@@ -59,9 +59,9 @@
 
 - (void)initDict
 {
-    JZDictController *controller = [JZDictController default];
     dispatch_async(dispatch_queue_create("dict_load", NULL), ^(){
-        [controller initDict];
+        JZDictController *controller = [JZDictController default];
+        controller = [controller initDict];
     });
 }
 @end

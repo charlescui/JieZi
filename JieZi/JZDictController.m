@@ -9,6 +9,7 @@
 #import "JZDictController.h"
 #import "XMLDictionary/XMLDictionary.h"
 #import "iOSBlocks/iOSBlocks.h"
+#import "JZDict.h"
 
 @implementation JZDictController
 
@@ -24,33 +25,44 @@
 }
 
 // 初始化词库
-- (void)initDict
+- (id)initDict
 {
-    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"powerword2007_pwdcccjk" ofType:@"xml"];
-    NSDictionary *rawDict = [NSDictionary dictionaryWithXMLFile:filePath];
-    NSArray *words = [rawDict objectForKey:@"单词解释块"];
-    //建立以查询词为key的hash
-    //避免按照xml做搜索，hash更快
-    self.dict = [NSMutableDictionary dictionaryWithCapacity:[words count]];
-    for (NSDictionary *d in words) {
-        NSDictionary *e = [d objectForKey:@"基本词义"];
-        if (e) {
-            NSDictionary *f = [e objectForKey:@"单词项"];
-            if (f) {
-                NSString *w = [f objectForKey:@"单词原型"];
-                if (w && w.length > 0) {
-                    [self.dict setObject:d forKey:w];
-                }
-            }
-        }
-    }
-    NSLog(@"dict load complete.");
+    if (!(self = [super init])) return nil;
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"dict" ofType:@"sqlite"];
+    BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:filePath];
+    NSLog(@"dict base file - %@ and file exists - %d", filePath, fileExists);
+    db = [[ABSQLiteDB alloc] init];
+	
+	if(![db connect:filePath]) {
+		return nil;
+	}
+    
+    return self;
+}
+
+- (NSArray *)queryDictWithCharacter:(NSString *)w
+{
+    NSString* sql = [NSString stringWithFormat:@"select * from dicts where character = '%@'", w];
+	id<ABRecordset> results = [db sqlSelect:sql];
+    NSMutableArray *records = [NSMutableArray arrayWithCapacity:[results recordCount]];
+	while (![results eof]) {
+		JZDict* dict = [[JZDict alloc] init];
+		NSString *data = [[results fieldWithName:@"data"] stringValue];
+		dict.character = w;
+        dict.data = [NSDictionary dictionaryWithXMLString:data];
+        [records addObject:dict];
+		[results moveNext];
+	}
+    return records;
 }
 
 //展示某个单词
 - (void)showWordInDict:(NSString *)w
 {
-    NSDictionary *wDict = [self.dict objectForKey:w];
+    NSArray *records = [self queryDictWithCharacter:w];
+    NSLog(@"fetch data %@", records);
+    JZDict *dict = [records lastObject];
+    NSDictionary *wDict = dict.data;
     if (wDict) {
         NSString *title = [NSString stringWithFormat:@"\"%@\"的查询结果", w];
         

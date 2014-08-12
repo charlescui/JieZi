@@ -26,8 +26,8 @@
 	// Do any additional setup after loading the view, typically from a nib.
     self.ocrFrameImageView.backgroundColor = [UIColor clearColor];
     self.ocrFrameImageView.opaque = NO;
-    self.ocrFrameImageView.layer.borderColor = [UIColor grayColor].CGColor;
-    self.ocrFrameImageView.layer.borderWidth = 1.0f;
+//    self.ocrFrameImageView.layer.borderColor = [UIColor grayColor].CGColor;
+//    self.ocrFrameImageView.layer.borderWidth = 1.0f;
     
     if (!self.ocr) {
         self.ocr = [[JZOcr alloc] initWithView:self.ocrImageView];

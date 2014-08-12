@@ -27,11 +27,14 @@
 //@interface JZOcr : NSObject <AVCaptureMetadataOutputObjectsDelegate, UIAlertViewDelegate, TesseractDelegate>
 @interface JZOcr : NSObject <AVCaptureMetadataOutputObjectsDelegate, UIAlertViewDelegate>
 
+//CoreVideo属性作废
 @property (strong,nonatomic)AVCaptureDevice *device;
 @property (strong,nonatomic)AVCaptureDeviceInput *input;
 @property (strong,nonatomic)AVCaptureStillImageOutput *output;
 @property (strong,nonatomic)AVCaptureSession *session;
 @property (strong,nonatomic)AVCaptureVideoPreviewLayer *preview;
+//========================
+
 @property (strong,nonatomic)UIImageView *view;
 @property (strong,nonatomic)UIView *borderView;
 @property (strong,nonatomic)NSString *qrvalue;

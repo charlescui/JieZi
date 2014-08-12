@@ -30,7 +30,7 @@
                                     <action selector="gotIt:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="JwQ-7q-cgK"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" alpha="0.19999999999999968" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CMG-hD-t8m">
+                            <imageView userInteractionEnabled="NO" alpha="0.19999999999999968" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="JieZi_Character_BG_Strong" translatesAutoresizingMaskIntoConstraints="NO" id="CMG-hD-t8m">
                                 <rect key="frame" x="96" y="137" width="128" height="128"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.4698905109489051" green="0.6189552919708029" blue="0.61447878649635024" alpha="1" colorSpace="calibratedRGB"/>
@@ -60,6 +60,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="JieZi_Character_BG_Strong" width="360" height="360"/>
         <image name="draw-ellipse" width="256" height="256"/>
         <image name="faviCard" width="160" height="160"/>
     </resources>

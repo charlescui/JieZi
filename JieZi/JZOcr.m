@@ -40,6 +40,11 @@
 {
     //初始化GPUImageVIew
     self.gpuImageView = [[GPUImageView alloc] initWithFrame:self.view.frame];
+    //设置触摸对焦
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(handleFocus:)];
+    [self.gpuImageView addGestureRecognizer:tap];
+    //设置全凭模式
+    self.gpuImageView.fillMode = kGPUImageFillModePreserveAspectRatioAndFill;
     [self.view addSubview:self.gpuImageView];
 }
 
@@ -71,9 +76,6 @@
 - (void)initTesseract
 {
     // Init ocr
-    //        self.tesseract = [[Tesseract alloc] initWithLanguage:@"chi_sim+eng"];
-    //        self.tesseract.delegate = self;
-    //        self.tesseract  = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"eng"];
     self.tesseract = [[Tesseract alloc] initWithDataPath:@"tessdata"
                                                 language:@"chi_sim"
                                            ocrEngineMode:OcrEngineModeTesseractOnly
@@ -141,20 +143,26 @@
     [self startGPUImageRunning];
 }
 
+//设置对焦手势
 -(void)handleFocus:(UITouch*)touch
 {
-    if( [self.device lockForConfiguration:nil] )
+    CGPoint touchPoint = [touch locationInView:self.view];
+    
+    if([self.stillCamera.inputCamera isFocusPointOfInterestSupported]&&[self.stillCamera.inputCamera isFocusModeSupported:AVCaptureFocusModeAutoFocus])
     {
-        CGPoint location = [touch locationInView:self.view];
         
-        if( [self.device isFocusPointOfInterestSupported] )
-            self.device.focusPointOfInterest = location;
-        
-        if( [self.device isExposurePointOfInterestSupported] )
-            self.device.exposurePointOfInterest = location;
-        
-        
-        [self.device unlockForConfiguration];
+        if([self.stillCamera.inputCamera lockForConfiguration :nil])
+        {
+            [self.stillCamera.inputCamera setFocusPointOfInterest :touchPoint];
+            [self.stillCamera.inputCamera setFocusMode :AVCaptureFocusModeLocked];
+            
+            if([self.stillCamera.inputCamera isExposurePointOfInterestSupported])
+            {
+                [self.stillCamera.inputCamera setExposurePointOfInterest:touchPoint];
+                [self.stillCamera.inputCamera setExposureMode:AVCaptureExposureModeLocked];
+            }
+            [self.stillCamera.inputCamera unlockForConfiguration];
+        }
     }
 }
 
@@ -177,17 +185,17 @@
     //裁剪图片
     filter = [[GPUImageCropFilter alloc] initWithCropRegion:[self toGPUImageRect:self.currentImage]];
     self.currentImage = [filter imageByFilteringImage:self.currentImage];
-    UIImageWriteToSavedPhotosAlbum(self.currentImage, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+//    UIImageWriteToSavedPhotosAlbum(self.currentImage, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
     
     //灰度
     filter = [[GPUImageGrayscaleFilter alloc] init];
     self.currentImage = [filter imageByFilteringImage:self.currentImage];
-    UIImageWriteToSavedPhotosAlbum(self.currentImage, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+//    UIImageWriteToSavedPhotosAlbum(self.currentImage, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
     
     //求反
     filter = [[GPUImageColorInvertFilter alloc] init];
     self.currentImage = [filter imageByFilteringImage:self.currentImage];
-    UIImageWriteToSavedPhotosAlbum(self.currentImage, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+//    UIImageWriteToSavedPhotosAlbum(self.currentImage, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
     
     //边缘检测
     //        filter = [[GPUImageThresholdEdgeDetectionFilter alloc] init];
@@ -203,7 +211,7 @@
     //锐化
     filter = [[GPUImageSharpenFilter alloc] init];
     self.currentImage = [filter imageByFilteringImage:self.currentImage];
-    UIImageWriteToSavedPhotosAlbum(self.currentImage, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+//    UIImageWriteToSavedPhotosAlbum(self.currentImage, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
     
     [self recognize:self.currentImage];
 }

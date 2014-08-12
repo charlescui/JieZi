@@ -100,9 +100,6 @@
     [parent presentViewController:popover animated:YES completion:^(){
         
     }];
-//    //唤起导航
-//    UINavigationController *navi = [[UINavigationController alloc] initWithRootViewController:controller];
-//    [[UIApplication sharedApplication].delegate.window.rootViewController presentViewController:navi animated:YES completion:nil];
 }
 
 @end

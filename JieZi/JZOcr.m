@@ -85,18 +85,39 @@
 
 - (void)startGPUImageRunning
 {
+    NSLog(@"%@", NSStringFromCGRect(self.gpuImageView.frame));
     //GPUImage
     //调用GPUImageStillCamera 作为相机，并将相机添加到一个GPUImageView中
-    self.stillCamera = [[GPUImageStillCamera alloc] initWithSessionPreset:AVCaptureSessionPreset640x480 cameraPosition:AVCaptureDevicePositionBack];
+    self.stillCamera = [[GPUImageStillCamera alloc] initWithSessionPreset:AVCaptureSessionPresetMedium cameraPosition:AVCaptureDevicePositionBack];
     //设置输出视频的方向
     self.stillCamera.outputImageOrientation = UIInterfaceOrientationPortrait;
     //切记使用小一些的尺寸initWithSessionPreset:AVCaptureSessionPreset640x480。否则会出现memory warning
     //如果需要添加fiilter。就通过其中添加
-    self.filter = [[GPUImageTiltShiftFilter alloc] init];
-    ((GPUImageTiltShiftFilter *)self.filter).blurRadiusInPixels = 10.0;
-
-    [self.stillCamera addTarget: self.filter];
-    [self.filter addTarget:self.gpuImageView];
+    
+    //设置上下模糊
+//    self.filter = [[GPUImageTiltShiftFilter alloc] init];
+//    ((GPUImageTiltShiftFilter *)self.filter).blurRadiusInPixels = 10.0;
+//    ((GPUImageTiltShiftFilter *)self.filter).focusFallOffRate = 0.1;
+//    [self.stillCamera addTarget: self.filter];
+    
+    //设置边框
+//    GPUImageVignetteFilter *vignetteFilter = [[GPUImageVignetteFilter alloc] init];
+//    vignetteFilter.vignetteStart = 0.2;
+//    vignetteFilter.vignetteEnd = 0.8;
+//    GPUVector3 colorToReplace = {199,198,201};
+//    vignetteFilter.vignetteColor = colorToReplace;
+//    [self.stillCamera addTarget:vignetteFilter];
+    
+    //设置指定范围模糊
+    GPUImageGaussianSelectiveBlurFilter *filter = [[GPUImageGaussianSelectiveBlurFilter alloc] init];
+    [(GPUImageGaussianSelectiveBlurFilter*)filter      setExcludeCircleRadius:self.borderView.frame.size.width/(2 * [UIScreen mainScreen].bounds.size.width)];
+    [(GPUImageGaussianSelectiveBlurFilter*)filter setExcludeCirclePoint:CGPointMake(self.borderView.center.x/[UIScreen mainScreen].bounds.size.width, self.borderView.center.y/[UIScreen mainScreen].bounds.size.height)];
+    
+    [self.stillCamera addTarget:filter];
+    [filter addTarget:self.gpuImageView];
+    //保存最后一个过滤器
+    //否则截图的时候self.filter为空会导致截图为空
+    self.filter = filter;
     //启动
     [self.stillCamera startCameraCapture];
 }
@@ -139,6 +160,10 @@
 
 - (void)processCapturedImage:(UIImage *)image
 {
+    if (!image) {
+        [NSException raise:@"Image is nil!" format:@""];
+        return;
+    }
     self.currentImage = image;
     //        self.currentImage = [self.view screenshot];
     self.currentRawImage = self.currentImage;
@@ -188,7 +213,7 @@
  **/
 - (void)captureimage
 {
-    //拍照后想生成图片
+    //拍照后生成图片
     [self.stillCamera capturePhotoAsImageProcessedUpToFilter:self.filter
                                        withCompletionHandler:^(UIImage *processed, NSError *error){
                                            [self processCapturedImage:processed];

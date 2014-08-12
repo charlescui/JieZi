@@ -45,7 +45,7 @@
 //    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel:)];
     
     //设置边缘为圆角
-    self.view.layer.cornerRadius = 6;
+    self.view.layer.cornerRadius = 18;
     self.view.layer.masksToBounds = YES;
 }
 
@@ -62,7 +62,9 @@
 {
 	static NSString* cellIdentifier = @"JZCharacterViewControllerCell";
 	
-	UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    //由于每个cell的高度都可能不同
+    //并且每个卡片
+	UITableViewCell* cell = nil;//[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
 	
 	if (!cell)
     {
@@ -74,6 +76,12 @@
     }else{
         cell.textLabel.text = xiangguanci;
     }
+    
+    //支持文案多行
+    [cell.textLabel sizeToFit];
+    cell.textLabel.numberOfLines = 0;
+    //让列表有UL的感觉
+    cell.imageView.image = [UIImage imageNamed:@"character_point.png"];
 	
 	return cell;
 }
@@ -94,6 +102,28 @@
     }else{
         return 1;
     }
+}
+
+//cell自适应label文案长短变化
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UILabel *label = [[UILabel alloc] init];
+    CGRect labelFrame = label.frame;
+    labelFrame.size.width = 220;
+    label.frame = labelFrame;
+    label.numberOfLines = 0;
+    
+    if (indexPath.section == 0) {
+        label.text = [jieshixiangs objectAtIndex:indexPath.row];
+    }else {
+        label.text = xiangguanci;
+    }
+    
+    [label sizeToFit];
+    CGSize labelSize;
+    labelSize = label.frame.size;
+    
+    return labelSize.height + 10;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section

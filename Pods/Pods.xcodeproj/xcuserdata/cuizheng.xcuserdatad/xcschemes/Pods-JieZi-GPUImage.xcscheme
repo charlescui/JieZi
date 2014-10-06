@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5B0B275363124161BDFE7EB4"
+               BlueprintIdentifier = "914A1BF883DF462A82B72791"
                BuildableName = "libPods-JieZi-GPUImage.a"
                BlueprintName = "Pods-JieZi-GPUImage"
                ReferencedContainer = "container:Pods.xcodeproj">

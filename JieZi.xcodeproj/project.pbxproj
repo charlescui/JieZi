@@ -963,6 +963,7 @@
 					"-lstdc++",
 				);
 				PRODUCT_NAME = "解字";
+				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1009,6 +1010,7 @@
 					"-lstdc++",
 				);
 				PRODUCT_NAME = "解字";
+				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

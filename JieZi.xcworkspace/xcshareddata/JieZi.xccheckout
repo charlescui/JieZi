@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>545B634D-D190-4868-ABD5-BEF649225D13</string>
+	<key>IDESourceControlProjectName</key>
+	<string>JieZi</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>3AD94AD89E354EA6EB1F558FB495B1217F664761</key>
+		<string>https://github.com/ldiqual/tesseract-ios.git</string>
+		<key>3F39762B-1BB4-4291-97C8-656EEC53E426</key>
+		<string>https://github.com/ldiqual/tesseract-ios.git</string>
+		<key>99C88FD549E4FEE3E70E80FB67321ED5AB8D9D2A</key>
+		<string>https://bitbucket.org/charlescui/jiezi.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>JieZi.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>3AD94AD89E354EA6EB1F558FB495B1217F664761</key>
+		<string>../../../../../Volumes/Data+/tesseract-ios</string>
+		<key>3F39762B-1BB4-4291-97C8-656EEC53E426</key>
+		<string>../../Volumes/Data+/tesseract-ios</string>
+		<key>99C88FD549E4FEE3E70E80FB67321ED5AB8D9D2A</key>
+		<string>..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://bitbucket.org/charlescui/jiezi.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>99C88FD549E4FEE3E70E80FB67321ED5AB8D9D2A</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>99C88FD549E4FEE3E70E80FB67321ED5AB8D9D2A</string>
+			<key>IDESourceControlWCCName</key>
+			<string>JieZi</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>3F39762B-1BB4-4291-97C8-656EEC53E426</string>
+			<key>IDESourceControlWCCName</key>
+			<string>tesseract-ios</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>3AD94AD89E354EA6EB1F558FB495B1217F664761</string>
+			<key>IDESourceControlWCCName</key>
+			<string>tesseract-ios</string>
+		</dict>
+	</array>
+</dict>
+</plist>

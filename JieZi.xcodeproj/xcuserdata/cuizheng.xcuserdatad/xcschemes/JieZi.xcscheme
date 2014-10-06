@@ -69,12 +69,12 @@
       </BuildableProductRunnable>
       <AdditionalOptions>
          <AdditionalOption
-            key = "OBJC_PRINT_EXCEPTIONS"
+            key = "NSZombieEnabled"
             value = "YES"
             isEnabled = "YES">
          </AdditionalOption>
          <AdditionalOption
-            key = "NSZombieEnabled"
+            key = "OBJC_PRINT_EXCEPTIONS"
             value = "YES"
             isEnabled = "YES">
          </AdditionalOption>

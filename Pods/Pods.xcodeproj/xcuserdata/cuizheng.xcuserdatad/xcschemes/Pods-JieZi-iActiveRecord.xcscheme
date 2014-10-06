@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "695C013798534C159AC6B94E"
+               BlueprintIdentifier = "C94A1BF0BF2A448DA1F83FB5"
                BuildableName = "libPods-JieZi-iActiveRecord.a"
                BlueprintName = "Pods-JieZi-iActiveRecord"
                ReferencedContainer = "container:Pods.xcodeproj">
